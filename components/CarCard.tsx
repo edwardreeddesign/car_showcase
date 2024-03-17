@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { CarProps } from '@types';
-import { calculateCarRent } from '@utils';
+import { calculateCarRent, generateCarImageUrl } from '@utils';
 import Image from 'next/image';
 import Button from './CustomButton';
 import CarDetails from './CarDetails';
@@ -29,6 +29,8 @@ const CarCard = ({ car }: CarCardProps) => {
   const carRent = calculateCarRent(city_mpg, year);
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log(generateCarImageUrl(car));
+
   return (
     <div className="car-card group">
       <div className="car-card__content">
@@ -45,8 +47,8 @@ const CarCard = ({ car }: CarCardProps) => {
 
       <div className="relative w-full h-40 my-3 object-contain">
         <Image
-          src="/hero.png"
-          alt="car"
+          src={generateCarImageUrl(car, '01')}
+          alt="car model"
           fill
           priority
           className="object-contain"
@@ -87,7 +89,11 @@ const CarCard = ({ car }: CarCardProps) => {
         </div>
       </div>
 
-      <CarDetails />
+      <CarDetails
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        car={car}
+      />
     </div>
   );
 };
